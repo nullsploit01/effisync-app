@@ -6,7 +6,7 @@ module.exports = {
     'plugin:testing-library/react',
     'plugin:jest-dom/recommended'
   ],
-  plugins: ['jest', 'testing-library'],
+  plugins: ['jest', 'testing-library', 'unused-imports'],
   overrides: [
     {
       files: ['*.ts', '*.tsx', '*.d.ts'],
@@ -25,6 +25,8 @@ module.exports = {
     __dirname: true
   },
   rules: {
-    'no-console': 'error'
+    'no-console': 'error',
+    'unused-imports/no-unused-imports': 'error',
+    'no-unused-vars': 'off'
   }
 }
