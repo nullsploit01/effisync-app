@@ -6,7 +6,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 export default function App() {
   return (
     <SafeAreaProvider>
-      <Text>Open up App.js to start working on your app!</Text>
+      <View>
+        <Text>Open up App.js too start working on your app!</Text>
+      </View>
     </SafeAreaProvider>
   )
 }
