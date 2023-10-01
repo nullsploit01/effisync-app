@@ -1,19 +1,20 @@
 import { ApolloProvider } from '@apollo/client'
+import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
-import { Text, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { apolloClient } from './clients/apollo.client'
+import StackNavigation from './navigation/stack.navigation'
 
 const App = () => {
   return (
-    <ApolloProvider client={apolloClient}>
-      <SafeAreaProvider>
-        <View>
-          <Text>Home Screen!</Text>
-        </View>
-      </SafeAreaProvider>
-    </ApolloProvider>
+    <NavigationContainer>
+      <ApolloProvider client={apolloClient}>
+        <SafeAreaProvider>
+          <StackNavigation />
+        </SafeAreaProvider>
+      </ApolloProvider>
+    </NavigationContainer>
   )
 }
 
