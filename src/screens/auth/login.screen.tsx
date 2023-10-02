@@ -1,8 +1,12 @@
+import { Layout, Text } from '@ui-kitten/components'
 import React from 'react'
-import { Text } from 'react-native'
 
 const LoginScreen = () => {
-  return <Text>LoginScreen</Text>
+  return (
+    <Layout>
+      <Text>LoginScreen</Text>
+    </Layout>
+  )
 }
 
 export default LoginScreen
