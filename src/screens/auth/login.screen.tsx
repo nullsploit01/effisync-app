@@ -1,6 +1,9 @@
+import { useMutation } from '@apollo/client'
 import { Button, Icon, Input, Layout } from '@ui-kitten/components'
 import React from 'react'
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native'
+
+import { LoginMutation } from 'src/graphql/auth/mutation'
 
 type ILoginValues = {
   email: string
@@ -11,15 +14,21 @@ const LoginScreen = () => {
   const [_credentials, setValue] = React.useState<ILoginValues>({ email: '', password: '' })
   const [_secureTextEntry, setSecureTextEntry] = React.useState<boolean>(true)
 
+  const [login] = useMutation(LoginMutation)
+
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!_secureTextEntry)
   }
 
   const renderEyeIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
-      <Icon name={_secureTextEntry ? 'eye-off' : ''} />
+      <Icon name={_secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
   )
+
+  const onLoginPress = () => {
+    login({ variables: { email: _credentials.email, password: _credentials.password } })
+  }
 
   return (
     <Layout style={styles.container}>
@@ -35,12 +44,12 @@ const LoginScreen = () => {
           <Input
             placeholder="Password"
             value={_credentials.password}
-            // accessoryRight={renderEyeIcon}
+            accessoryRight={renderEyeIcon}
             secureTextEntry={_secureTextEntry}
             onChangeText={(nextValue) => setValue({ ..._credentials, password: nextValue })}
           />
         </Layout>
-        <Button>Login</Button>
+        <Button onPress={onLoginPress}>Login</Button>
       </Layout>
     </Layout>
   )
