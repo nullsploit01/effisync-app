@@ -1,7 +1,8 @@
 import { ApolloProvider } from '@apollo/client'
 import * as eva from '@eva-design/eva'
 import { NavigationContainer } from '@react-navigation/native'
-import { ApplicationProvider } from '@ui-kitten/components'
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
+import { EvaIconsPack } from '@ui-kitten/eva-icons'
 import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <ApolloProvider client={apolloClient}>
+        <IconRegistry icons={EvaIconsPack} />
         <ApplicationProvider {...eva} theme={theme}>
           <SafeAreaProvider>
             <StackNavigation />
