@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
-import { Button, Icon, Input, Layout } from '@ui-kitten/components'
+import { Button, Icon, Input, Layout, Text } from '@ui-kitten/components'
 import React from 'react'
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { LoginMutation } from 'src/graphql/auth/mutation'
 
@@ -19,12 +19,6 @@ const LoginScreen = () => {
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!_secureTextEntry)
   }
-
-  const renderEyeIcon = (): React.ReactElement => (
-    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
-      <Icon name={_secureTextEntry ? 'eye-off' : 'eye'} />
-    </TouchableWithoutFeedback>
-  )
 
   const onLoginPress = () => {
     login({ variables: { email: _credentials.email, password: _credentials.password } })
@@ -44,12 +38,28 @@ const LoginScreen = () => {
           <Input
             placeholder="Password"
             value={_credentials.password}
-            accessoryRight={renderEyeIcon}
+            accessoryRight={
+              <TouchableOpacity onPress={toggleSecureEntry}>
+                <Icon name={_secureTextEntry ? 'eye-off' : 'eye'} />
+              </TouchableOpacity>
+            }
             secureTextEntry={_secureTextEntry}
             onChangeText={(nextValue) => setValue({ ..._credentials, password: nextValue })}
           />
         </Layout>
-        <Button onPress={onLoginPress}>Login</Button>
+        <Button size="large" onPress={onLoginPress}>
+          Login
+        </Button>
+        <View style={styles.seperator}>
+          <View style={styles.border} />
+          <Text appearance="hint" style={styles.text}>
+            or
+          </Text>
+          <View style={styles.border} />
+        </View>
+        <Button size="large" appearance="outline">
+          Register
+        </Button>
       </Layout>
     </Layout>
   )
@@ -60,15 +70,29 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     paddingBottom: 120
   },
   fieldContainer: {
-    padding: 40,
-    marginVertical: 120
+    padding: 40
   },
   input: {
     marginBottom: 26
+  },
+  seperator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10
+  },
+  border: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'black'
+  },
+  text: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginHorizontal: 10
   }
 })
 
