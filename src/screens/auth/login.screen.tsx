@@ -27,8 +27,12 @@ const LoginScreen = () => {
   return (
     <Layout style={styles.container}>
       <Layout style={styles.fieldContainer}>
+        <Text style={{ textAlign: 'center', marginBottom: 75 }} status="primary" category="h2">
+          Login
+        </Text>
         <Layout style={styles.input}>
           <Input
+            autoCapitalize="none"
             placeholder="Email"
             value={_credentials.email}
             onChangeText={(nextValue) => setValue({ ..._credentials, email: nextValue })}
