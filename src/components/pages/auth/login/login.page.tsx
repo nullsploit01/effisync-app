@@ -4,6 +4,7 @@ import { Button, Icon, Input, Layout, Text } from '@ui-kitten/components'
 import { FC, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
+import { screenNames } from 'src/constants/navigation.constants'
 import { LoginMutation } from 'src/graphql/auth/mutation'
 
 type ILoginValues = {
@@ -30,7 +31,7 @@ const LoginPage: FC<ILandingPageProps> = ({ navigation }) => {
   }
 
   const onRegisterPress = () => {
-    navigation.navigate('Register')
+    navigation.navigate(screenNames.auth.register)
   }
 
   return (
