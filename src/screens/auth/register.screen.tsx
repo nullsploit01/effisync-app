@@ -1,8 +1,14 @@
-import React from 'react'
-import { Text } from 'react-native'
+import { NavigationProp } from '@react-navigation/native'
+import React, { FC } from 'react'
 
-const RegisterScreen = () => {
-  return <Text>RegisterScreen</Text>
+import RegisterPage from 'src/components/pages/auth/register/register.page'
+
+type IRegisterScreenProps = {
+  navigation: NavigationProp<any, any>
+}
+
+const RegisterScreen: FC<IRegisterScreenProps> = ({ navigation }) => {
+  return <RegisterPage navigation={navigation} />
 }
 
 export default RegisterScreen

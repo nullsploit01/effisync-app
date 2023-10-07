@@ -6,62 +6,93 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { screenNames } from 'src/constants/navigation.constants'
 import { useAuthContext } from 'src/hooks/use-auth-context.hook'
 
-type ILoginValues = {
+type IRegisterValues = {
+  name: string
   email: string
   password: string
+  confirmPassword: string
 }
 
-type ILandingPageProps = {
+type IRegisterPageProps = {
   navigation: NavigationProp<any, any>
 }
 
-const LoginPage: FC<ILandingPageProps> = ({ navigation }) => {
-  const [_credentials, setCredentials] = useState<ILoginValues>({} as ILoginValues)
+const RegisterPage: FC<IRegisterPageProps> = ({ navigation }) => {
+  const [_registrationInfo, setRegistrationInfo] = useState<IRegisterValues>({} as IRegisterValues)
   const [_secureTextEntry, setSecureTextEntry] = useState<boolean>(true)
 
-  const { login } = useAuthContext()
+  const { register } = useAuthContext()
 
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!_secureTextEntry)
   }
 
   const onLoginPress = () => {
-    login(_credentials.email, _credentials.password)
+    navigation.navigate(screenNames.auth.login)
   }
 
   const onRegisterPress = () => {
-    navigation.navigate(screenNames.auth.register)
+    register(_registrationInfo.name, _registrationInfo.email, _registrationInfo.password)
   }
 
   return (
     <Layout style={styles.container}>
       <Layout style={styles.fieldContainer}>
         <Text style={{ textAlign: 'center', marginBottom: 75 }} status="primary" category="h2">
-          Login
+          Register
         </Text>
+        <Layout style={styles.input}>
+          <Input
+            autoCapitalize="words"
+            placeholder="Name"
+            value={_registrationInfo.name}
+            onChangeText={(nextValue) =>
+              setRegistrationInfo({ ..._registrationInfo, name: nextValue })
+            }
+          />
+        </Layout>
         <Layout style={styles.input}>
           <Input
             autoCapitalize="none"
             placeholder="Email"
-            value={_credentials.email}
-            onChangeText={(nextValue) => setCredentials({ ..._credentials, email: nextValue })}
+            value={_registrationInfo.email}
+            onChangeText={(nextValue) =>
+              setRegistrationInfo({ ..._registrationInfo, email: nextValue })
+            }
           />
         </Layout>
         <Layout style={styles.input}>
           <Input
             placeholder="Password"
-            value={_credentials.password}
+            value={_registrationInfo.password}
             accessoryRight={
               <TouchableOpacity onPress={toggleSecureEntry}>
                 <Icon name={_secureTextEntry ? 'eye-off' : 'eye'} />
               </TouchableOpacity>
             }
             secureTextEntry={_secureTextEntry}
-            onChangeText={(nextValue) => setCredentials({ ..._credentials, password: nextValue })}
+            onChangeText={(nextValue) =>
+              setRegistrationInfo({ ..._registrationInfo, password: nextValue })
+            }
           />
         </Layout>
-        <Button size="large" onPress={onLoginPress}>
-          Login
+        <Layout style={styles.input}>
+          <Input
+            placeholder="Confirm Password"
+            value={_registrationInfo.confirmPassword}
+            accessoryRight={
+              <TouchableOpacity onPress={toggleSecureEntry}>
+                <Icon name={_secureTextEntry ? 'eye-off' : 'eye'} />
+              </TouchableOpacity>
+            }
+            secureTextEntry={_secureTextEntry}
+            onChangeText={(nextValue) =>
+              setRegistrationInfo({ ..._registrationInfo, password: nextValue })
+            }
+          />
+        </Layout>
+        <Button size="large" onPress={onRegisterPress}>
+          Register
         </Button>
         <View style={styles.seperator}>
           <View style={styles.border} />
@@ -70,23 +101,26 @@ const LoginPage: FC<ILandingPageProps> = ({ navigation }) => {
           </Text>
           <View style={styles.border} />
         </View>
-        <Button onPress={onRegisterPress} size="large" appearance="outline">
-          Register
+        <Button onPress={onLoginPress} size="large" appearance="outline">
+          Login
         </Button>
       </Layout>
     </Layout>
   )
 }
 
+export default RegisterPage
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'flex-start'
   },
   fieldContainer: {
-    paddingHorizontal: 40
+    paddingHorizontal: 40,
+    paddingVertical: 80
   },
   input: {
     marginBottom: 26
@@ -107,5 +141,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   }
 })
-
-export default LoginPage
