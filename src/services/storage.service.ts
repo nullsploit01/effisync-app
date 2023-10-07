@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 class StorageService {
-  set = async (key: string, value: Record<string, any> | string) => {
-    value = typeof value === 'string' ? value : JSON.stringify(value)
-    await AsyncStorage.setItem(key, value)
+  set = async (key: string, value: string) => {
+    const serializedValue = JSON.stringify({ [key]: value })
+    await AsyncStorage.setItem(key, serializedValue)
   }
 
   get = async (key: string) => {

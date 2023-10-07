@@ -83,8 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
-    paddingBottom: 120
+    justifyContent: 'center'
   },
   fieldContainer: {
     padding: 40
