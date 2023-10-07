@@ -1,9 +1,11 @@
 import { ApolloError, useMutation } from '@apollo/client'
 import { createContext, FC } from 'react'
 
+import { storageKeys } from 'src/constants/storage.constants'
 import { LoginMutation } from 'src/graphql/auth/mutation'
 import { useAuthReducer } from 'src/hooks/use-auth-reducer.hook'
 import { AuthActions } from 'src/reducers/interface'
+import { storageService } from 'src/services/storage.service'
 
 import { IAuthContext, IAuthContextProvider, IAuthResponse, ILogin, IRegister } from './interface'
 
@@ -22,7 +24,10 @@ export const AuthProvider: FC<IAuthContextProvider> = ({ children }) => {
       const { data } = await loginCallback({ variables: { email, password } })
 
       const authResponse = data?.login as IAuthResponse
+
+      await storageService.set(storageKeys.auth.token, authResponse.token)
       dispatch({ type: AuthActions.LOGIN, payload: authResponse })
+
       return authResponse
     } catch (err) {
       if (err instanceof ApolloError) {

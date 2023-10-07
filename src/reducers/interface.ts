@@ -1,4 +1,4 @@
-import { IAuthResponse } from 'src/components/context/auth/interface'
+import { IAuthResponse } from 'src/context/auth/interface'
 import { IUser } from 'src/interfaces/user'
 
 export enum AuthActions {
