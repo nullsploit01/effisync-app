@@ -7,6 +7,7 @@ import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { apolloClient } from './clients/apollo.client'
+import { AuthProvider } from './components/context/auth/auth.context'
 import StackNavigation from './navigation/stack.navigation'
 import { theme } from './theme'
 
@@ -17,7 +18,9 @@ const App = () => {
         <IconRegistry icons={EvaIconsPack} />
         <ApplicationProvider {...eva} theme={theme}>
           <SafeAreaProvider>
-            <StackNavigation />
+            <AuthProvider>
+              <StackNavigation />
+            </AuthProvider>
           </SafeAreaProvider>
         </ApplicationProvider>
       </ApolloProvider>

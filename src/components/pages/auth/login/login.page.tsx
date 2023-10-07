@@ -1,11 +1,10 @@
-import { useMutation } from '@apollo/client'
 import { NavigationProp } from '@react-navigation/native'
 import { Button, Icon, Input, Layout, Text } from '@ui-kitten/components'
 import { FC, useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { screenNames } from 'src/constants/navigation.constants'
-import { LoginMutation } from 'src/graphql/auth/mutation'
+import { useAuthContext } from 'src/hooks/use-auth-context.hook'
 
 type ILoginValues = {
   email: string
@@ -20,14 +19,17 @@ const LoginPage: FC<ILandingPageProps> = ({ navigation }) => {
   const [_credentials, setValue] = useState<ILoginValues>({ email: '', password: '' })
   const [_secureTextEntry, setSecureTextEntry] = useState<boolean>(true)
 
-  const [login] = useMutation(LoginMutation)
+  const { login } = useAuthContext()
+
+  //   const [login] = useMutation(LoginMutation)
 
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!_secureTextEntry)
   }
 
   const onLoginPress = () => {
-    login({ variables: { email: _credentials.email, password: _credentials.password } })
+    // login({ variables: { email: _credentials.email, password: _credentials.password } })
+    login(_credentials.email, _credentials.password)
   }
 
   const onRegisterPress = () => {
