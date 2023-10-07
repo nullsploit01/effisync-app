@@ -21,14 +21,11 @@ const LoginPage: FC<ILandingPageProps> = ({ navigation }) => {
 
   const { login } = useAuthContext()
 
-  //   const [login] = useMutation(LoginMutation)
-
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!_secureTextEntry)
   }
 
   const onLoginPress = () => {
-    // login({ variables: { email: _credentials.email, password: _credentials.password } })
     login(_credentials.email, _credentials.password)
   }
 

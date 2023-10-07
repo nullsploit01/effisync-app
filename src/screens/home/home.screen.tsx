@@ -1,4 +1,5 @@
 import { NavigationProp } from '@react-navigation/native'
+import { Text } from '@ui-kitten/components'
 import { FC } from 'react'
 
 type IHomeScreenProps = {
@@ -6,7 +7,7 @@ type IHomeScreenProps = {
 }
 
 const HomeScreen: FC<IHomeScreenProps> = ({ navigation }) => {
-  return <div>HomeScreen</div>
+  return <Text>HomeScreen</Text>
 }
 
 export default HomeScreen
