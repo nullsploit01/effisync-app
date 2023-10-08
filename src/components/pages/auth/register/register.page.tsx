@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     paddingVertical: 80
   },
   input: {
-    marginBottom: 26
+    marginBottom: 20
   },
   seperator: {
     flexDirection: 'row',
