@@ -5,6 +5,7 @@ export type IAuthContext = {
   login: ILogin
   register: IRegister
   logout: ILogout
+  getProfile: IGetProfile
 }
 
 export type IAuthResponse = {
@@ -22,6 +23,10 @@ export type IRegister = {
 
 export type ILogout = {
   (): Promise<void>
+}
+
+export type IGetProfile = {
+  (): Promise<IUser | null>
 }
 
 export type IAuthContextProvider = {
