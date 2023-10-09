@@ -1,19 +1,14 @@
 import { NavigationProp } from '@react-navigation/native'
-import { Text } from '@ui-kitten/components'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 
-import { useAuthContext } from 'src/hooks/use-auth-context.hook'
+import HomePage from 'src/components/pages/home/home.page'
 
 type IHomeScreenProps = {
   navigation: NavigationProp<any, any>
 }
 
 const HomeScreen: FC<IHomeScreenProps> = ({ navigation }) => {
-  const { getProfile } = useAuthContext()
-  useEffect(() => {
-    getProfile()
-  }, [])
-  return <Text>HomeScreen</Text>
+  return <HomePage />
 }
 
 export default HomeScreen

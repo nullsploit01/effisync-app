@@ -12,21 +12,13 @@ const StackNavigation = () => {
   const Stack = createNativeStackNavigator()
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       {user ? (
         <Stack.Screen name={screenNames.home} component={HomeScreen} />
       ) : (
         <Fragment>
-          <Stack.Screen
-            name={screenNames.auth.login}
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name={screenNames.auth.register}
-            component={RegisterScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name={screenNames.auth.login} component={LoginScreen} />
+          <Stack.Screen name={screenNames.auth.register} component={RegisterScreen} />
         </Fragment>
       )}
     </Stack.Navigator>

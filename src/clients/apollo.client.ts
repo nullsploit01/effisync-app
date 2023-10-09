@@ -10,11 +10,11 @@ const httpLink = createHttpLink({
 })
 
 const authLink = setContext(async (_, { headers }) => {
-  const { token } = await storageService.get(storageKeys.auth.token)
+  const cachedData = await storageService.get(storageKeys.auth.token)
   return {
     headers: {
       ...headers,
-      authorization: token ? `${token}` : ''
+      authorization: cachedData?.token ? `${cachedData.token}` : ''
     }
   }
 })

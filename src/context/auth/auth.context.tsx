@@ -55,9 +55,9 @@ export const AuthProvider: FC<IAuthContextProvider> = ({ children }) => {
   const logout = async () => {}
 
   const getProfile: IGetProfile = async () => {
-    const { token } = await storageService.get(storageKeys.auth.token)
+    const cachedData = await storageService.get(storageKeys.auth.token)
 
-    if (!token) {
+    if (!cachedData) {
       return null
     }
 
@@ -68,7 +68,7 @@ export const AuthProvider: FC<IAuthContextProvider> = ({ children }) => {
     }
 
     const user = data?.userProfile as IUser
-    dispatch({ type: AuthActions.LOGIN, payload: { user, token } })
+    dispatch({ type: AuthActions.LOGIN, payload: { user, token: cachedData.token } })
     return user
   }
 
