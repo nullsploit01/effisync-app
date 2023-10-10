@@ -1,23 +1,21 @@
-import { Icon, Layout, TopNavigation, TopNavigationAction } from '@ui-kitten/components'
-import React from 'react'
-import { StyleSheet, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { NavigationProp } from '@react-navigation/native'
+import { Layout, Text } from '@ui-kitten/components'
+import React, { FC } from 'react'
+import { StyleSheet } from 'react-native'
 
-export const TopNavigationSimpleUsageShowcase = (): React.ReactElement => (
-  <TopNavigation
-    accessoryLeft={() => <TopNavigationAction icon={<Icon name="arrow-back" />} />}
-    title="Eva Application"
-  />
-)
+import TopNavigationLayout from 'src/components/layouts/navigation/top-navigation.layout'
 
-const HomePage = () => {
+type IHomePageProps = {
+  navigation: NavigationProp<any, any>
+}
+
+const HomePage: FC<IHomePageProps> = ({ navigation }) => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <TopNavigationLayout title="Home">
       <Layout style={styles.container}>
-        <TopNavigationSimpleUsageShowcase />
-        <Text>HomePage</Text>
+        <Text>Home Page</Text>
       </Layout>
-    </SafeAreaView>
+    </TopNavigationLayout>
   )
 }
 
@@ -25,6 +23,9 @@ export default HomePage
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
