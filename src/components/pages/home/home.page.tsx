@@ -6,14 +6,15 @@ import { StyleSheet } from 'react-native'
 import MenuIcon from 'src/components/atoms/menu/menu-icon.atom'
 import TopNavigationLayout from 'src/components/layouts/navigation/top-navigation.layout'
 import { useAuthContext } from 'src/hooks/use-auth-context.hook'
+import { IUser } from 'src/interfaces/user'
 
 type IHomePageProps = {
   navigation: NavigationProp<any, any>
+  user: IUser
 }
 
 const HomePage: FC<IHomePageProps> = ({ navigation }) => {
   const { user } = useAuthContext()
-
   if (!user) {
     throw new Error('User is not defined')
   }

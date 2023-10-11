@@ -14,7 +14,11 @@ const StackNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {user ? (
-        <Stack.Screen name={screenNames.home} component={HomeScreen} />
+        <Stack.Screen
+          name={screenNames.home}
+          component={HomeScreen as any}
+          initialParams={{ user }}
+        />
       ) : (
         <Fragment>
           <Stack.Screen name={screenNames.auth.login} component={LoginScreen} />
