@@ -22,7 +22,7 @@ const HomePage: FC<IHomePageProps> = ({ navigation }) => {
   return (
     <TopNavigationLayout title="Home" accessoryRight={() => <MenuIcon user={user} />}>
       <Layout style={styles.container}>
-        <Text>Home Page (One Line Change)</Text>
+        <Text>Home Page</Text>
       </Layout>
     </TopNavigationLayout>
   )
