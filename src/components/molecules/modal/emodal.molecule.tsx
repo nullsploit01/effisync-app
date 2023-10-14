@@ -2,16 +2,12 @@ import { Card, Layout, Modal } from '@ui-kitten/components'
 import React, { FC } from 'react'
 import { StyleSheet } from 'react-native'
 
-import { IEModal } from './interface'
+import { IEModalProps } from './interface'
 
-const EModal: FC<IEModal> = ({ visible, setVisible, children }) => {
+const EModal: FC<IEModalProps> = ({ visible, onBackdropPress, children }) => {
   return (
     <Layout>
-      <Modal
-        visible={visible}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setVisible(false)}
-      >
+      <Modal visible={visible} backdropStyle={styles.backdrop} onBackdropPress={onBackdropPress}>
         <Card disabled={true}>{children}</Card>
       </Modal>
     </Layout>
@@ -20,7 +16,7 @@ const EModal: FC<IEModal> = ({ visible, setVisible, children }) => {
 
 const styles = StyleSheet.create({
   backdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    backgroundColor: 'rgba(0, 0, 0, 0.3)'
   }
 })
 

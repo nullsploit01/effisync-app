@@ -1,5 +1,5 @@
-export type IEModal = {
+export type IEModalProps = {
   visible: boolean
   children: React.ReactNode
-  setVisible: (visible: boolean) => void
+  onBackdropPress: () => void
 }

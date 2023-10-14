@@ -5,8 +5,9 @@ import { StyleSheet } from 'react-native'
 
 import MenuIcon from 'src/components/atoms/menu/menu-icon.atom'
 import TopNavigationLayout from 'src/components/layouts/navigation/top-navigation.layout'
-import EModal from 'src/components/molecules/modal/emodal.molecule'
 import { IUser } from 'src/interfaces/user'
+
+import CreateTaskModal from './components/create-task-modal.component'
 
 type IHomePageProps = {
   navigation: NavigationProp<any, any>
@@ -15,15 +16,20 @@ type IHomePageProps = {
 
 const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
   const [_showCreateTaskModal, setShowCreateTaskModal] = useState<boolean>(false)
+
   return (
     <TopNavigationLayout title="Home" accessoryRight={() => <MenuIcon user={user} />}>
       <Layout style={styles.container}>
-        <EModal visible={_showCreateTaskModal} setVisible={setShowCreateTaskModal}>
-          <Text>okokok</Text>
-        </EModal>
-        <Layout style={{ flex: 1 }}></Layout>
+        <CreateTaskModal visible={_showCreateTaskModal} setVisible={setShowCreateTaskModal} />
+        <Layout
+          style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Text>No Tasks Found</Text>
+        </Layout>
         <Layout style={styles.footer}>
-          <Button onPress={() => setShowCreateTaskModal(true)}>Add Task</Button>
+          <Button size="large" onPress={() => setShowCreateTaskModal(true)}>
+            Add
+          </Button>
         </Layout>
       </Layout>
     </TopNavigationLayout>
