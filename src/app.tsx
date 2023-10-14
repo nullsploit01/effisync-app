@@ -8,6 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { apolloClient } from './clients/apollo.client'
 import { AuthProvider } from './context/auth/auth.context'
+import { TaskContextProvider } from './context/task/task.context'
 import StackNavigation from './navigation/stack.navigation'
 import { theme } from './theme'
 
@@ -19,7 +20,9 @@ const App = () => {
         <ApplicationProvider {...eva} theme={theme}>
           <SafeAreaProvider>
             <AuthProvider>
-              <StackNavigation />
+              <TaskContextProvider>
+                <StackNavigation />
+              </TaskContextProvider>
             </AuthProvider>
           </SafeAreaProvider>
         </ApplicationProvider>
