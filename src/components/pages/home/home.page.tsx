@@ -8,6 +8,7 @@ import TopNavigationLayout from 'src/components/layouts/navigation/top-navigatio
 import { IUser } from 'src/interfaces/user'
 
 import CreateTaskModal from './components/create-task-modal.component'
+import TaskAddedModal from './components/task-added-modal.component'
 
 type IHomePageProps = {
   navigation: NavigationProp<any, any>
@@ -15,22 +16,29 @@ type IHomePageProps = {
 }
 
 const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
-  const [_showCreateTaskModal, setShowCreateTaskModal] = useState<boolean>(false)
+  const [_showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false)
+  const [_showTaskAddedModal, setShowTaskAddedModal] = useState<boolean>(false)
 
   return (
     <TopNavigationLayout title="Home" accessoryRight={() => <MenuIcon user={user} />}>
       <Layout style={styles.container}>
-        <CreateTaskModal visible={_showCreateTaskModal} setVisible={setShowCreateTaskModal} />
-        <Layout
-          style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        >
-          <Text>No Tasks Found</Text>
+        <CreateTaskModal
+          visible={_showAddTaskModal}
+          setVisible={setShowAddTaskModal}
+          onTaskCreated={() => setShowTaskAddedModal(true)}
+        />
+        <Layout style={styles.tasksContainer}>
+          <Text>No Tasks Found </Text>
         </Layout>
         <Layout style={styles.footer}>
-          <Button size="large" onPress={() => setShowCreateTaskModal(true)}>
+          <Button size="large" onPress={() => setShowAddTaskModal(true)}>
             Add
           </Button>
         </Layout>
+        <TaskAddedModal
+          visible={_showTaskAddedModal}
+          onBackdropPress={() => setShowTaskAddedModal(false)}
+        />
       </Layout>
     </TopNavigationLayout>
   )
@@ -47,5 +55,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     margin: 10
-  }
+  },
+  tasksContainer: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }
 })

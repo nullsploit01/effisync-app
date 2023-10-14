@@ -8,7 +8,7 @@ const EModal: FC<IEModalProps> = ({ visible, onBackdropPress, children }) => {
   return (
     <Layout>
       <Modal visible={visible} backdropStyle={styles.backdrop} onBackdropPress={onBackdropPress}>
-        <Card disabled={true}>{children}</Card>
+        <Card>{children}</Card>
       </Modal>
     </Layout>
   )

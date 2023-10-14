@@ -9,13 +9,13 @@ import { ITask } from 'src/interfaces/task'
 type ICreateTaskModalProps = {
   visible: boolean
   setVisible: (visible: boolean) => void
+  onTaskCreated?: () => void
 }
 
-const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible }) => {
+const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible, onTaskCreated }) => {
   const { createTask } = useTaskContext()
 
   const [_createTaskFormValues, setCreateTaskFormValues] = useState<ITask>({} as ITask)
-
   const [_showValidationError, setShowValidationError] = useState<{ task: boolean }>({
     task: false
   })
@@ -27,7 +27,10 @@ const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible }) => 
     }
 
     setShowValidationError({ ..._showValidationError, task: false })
-    createTask(_createTaskFormValues).then(() => setVisible(false))
+    createTask(_createTaskFormValues).then(() => {
+      setVisible(false)
+      onTaskCreated && onTaskCreated()
+    })
   }
 
   const onBackdropPress = () => {
