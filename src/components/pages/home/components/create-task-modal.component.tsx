@@ -1,8 +1,10 @@
+import { useMutation } from '@apollo/client'
 import { Button, Icon, Input, Layout, Tooltip } from '@ui-kitten/components'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import EModal from 'src/components/molecules/modal/emodal.molecule'
+import { CreateTaskMutation } from 'src/graphql/task/mutation'
 import { ICreateTaskValues } from 'src/interfaces/task'
 
 type ICreateTaskModalProps = {
@@ -11,6 +13,10 @@ type ICreateTaskModalProps = {
 }
 
 const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible }) => {
+  const [createTask, { data, error }] = useMutation(CreateTaskMutation)
+
+  useEffect(() => {}, [data, error])
+
   const [_createTaskFormValues, setCreateTaskFormValues] = useState<ICreateTaskValues>(
     {} as ICreateTaskValues
   )
@@ -19,13 +25,19 @@ const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible }) => 
     task: false
   })
 
-  const handleAddTask = () => {
+  const handleAddTask = async () => {
     if (!_createTaskFormValues.title) {
       setShowValidationError({ ..._showValidationError, task: true })
       return
     }
 
     setShowValidationError({ ..._showValidationError, task: false })
+    await createTask({
+      variables: {
+        title: _createTaskFormValues.title,
+        description: _createTaskFormValues.description
+      }
+    })
   }
 
   const onBackdropPress = () => {
