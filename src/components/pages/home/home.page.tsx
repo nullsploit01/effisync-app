@@ -1,11 +1,11 @@
 import { NavigationProp } from '@react-navigation/native'
-import { Layout, Text } from '@ui-kitten/components'
-import React, { FC } from 'react'
+import { Button, Layout, Text } from '@ui-kitten/components'
+import { FC, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import MenuIcon from 'src/components/atoms/menu/menu-icon.atom'
 import TopNavigationLayout from 'src/components/layouts/navigation/top-navigation.layout'
-import { useAuthContext } from 'src/hooks/use-auth-context.hook'
+import EModal from 'src/components/molecules/modal/emodal.molecule'
 import { IUser } from 'src/interfaces/user'
 
 type IHomePageProps = {
@@ -13,16 +13,18 @@ type IHomePageProps = {
   user: IUser
 }
 
-const HomePage: FC<IHomePageProps> = ({ navigation }) => {
-  const { user } = useAuthContext()
-  if (!user) {
-    throw new Error('User is not defined')
-  }
-
+const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
+  const [_showCreateTaskModal, setShowCreateTaskModal] = useState<boolean>(false)
   return (
     <TopNavigationLayout title="Home" accessoryRight={() => <MenuIcon user={user} />}>
       <Layout style={styles.container}>
-        <Text>Home Page</Text>
+        <EModal visible={_showCreateTaskModal} setVisible={setShowCreateTaskModal}>
+          <Text>okokok</Text>
+        </EModal>
+        <Layout style={{ flex: 1 }}></Layout>
+        <Layout style={styles.footer}>
+          <Button onPress={() => setShowCreateTaskModal(true)}>Add Task</Button>
+        </Layout>
       </Layout>
     </TopNavigationLayout>
   )
@@ -32,9 +34,12 @@ export default HomePage
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
+  },
+  footer: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    margin: 10
   }
 })
