@@ -6,7 +6,7 @@ import { LoginMutation } from 'src/graphql/auth/mutation'
 import { ProfileQuery } from 'src/graphql/auth/query'
 import { useAuthReducer } from 'src/hooks/use-auth-reducer.hook'
 import { IUser } from 'src/interfaces/user'
-import { AuthActions } from 'src/reducers/interface'
+import { AuthActions } from 'src/reducers/auth/interface'
 import { storageService } from 'src/services/storage.service'
 
 import {

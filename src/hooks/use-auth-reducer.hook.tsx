@@ -1,6 +1,6 @@
 import { useReducer } from 'react'
 
-import { authreducer } from 'src/reducers/auth.reducer'
+import { authreducer } from 'src/reducers/auth/auth.reducer'
 
 export const useAuthReducer = () => {
   const initialState = {

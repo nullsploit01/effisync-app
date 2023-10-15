@@ -1,10 +1,11 @@
 import { NavigationProp } from '@react-navigation/native'
 import { Button, Layout, Text } from '@ui-kitten/components'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import MenuIcon from 'src/components/atoms/menu/menu-icon.atom'
 import TopNavigationLayout from 'src/components/layouts/navigation/top-navigation.layout'
+import { useTaskContext } from 'src/hooks/use-task-context.hook'
 import { IUser } from 'src/interfaces/user'
 
 import CreateTaskModal from './components/create-task-modal.component'
@@ -16,6 +17,12 @@ type IHomePageProps = {
 }
 
 const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
+  const { getTasks } = useTaskContext()
+
+  useEffect(() => {
+    getTasks()
+  }, [])
+
   const [_showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false)
   const [_showTaskAddedModal, setShowTaskAddedModal] = useState<boolean>(false)
 

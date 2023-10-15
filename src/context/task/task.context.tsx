@@ -1,8 +1,11 @@
-import { useMutation } from '@apollo/client'
-import { createContext, FC, useState } from 'react'
+import { useLazyQuery, useMutation } from '@apollo/client'
+import { createContext, FC, useEffect } from 'react'
 
 import { CreateTaskMutation } from 'src/graphql/task/mutation'
+import { GetTasksQuery } from 'src/graphql/task/query'
+import { useTaskReducer } from 'src/hooks/use-task-reducer.hook'
 import { ITask } from 'src/interfaces/task'
+import { TaskActions } from 'src/reducers/task/interface'
 
 import {
   ICreateTask,
@@ -16,9 +19,14 @@ import {
 export const TaskContext = createContext<ITaskContext>({} as ITaskContext)
 
 export const TaskContextProvider: FC<ITaskProviderProps> = ({ children }) => {
-  const [tasks, setTasks] = useState<ITask[]>([])
+  const [{ tasks }, dispatch] = useTaskReducer()
 
   const [createTaskAsync] = useMutation(CreateTaskMutation)
+  const [getTasksAsync] = useLazyQuery(GetTasksQuery)
+
+  useEffect(() => {
+    getTasks()
+  }, [])
 
   const createTask: ICreateTask = async (task) => {
     const { data } = await createTaskAsync({
@@ -28,27 +36,29 @@ export const TaskContextProvider: FC<ITaskProviderProps> = ({ children }) => {
       }
     })
 
-    setTasks([...tasks, data.createTask])
+    dispatch({ type: TaskActions.CREATE_TASK, payload: data.createTask })
     return data.createTask
   }
 
   const updateTask: IUpdateTask = async (task: ITask) => {
-    const index = tasks.findIndex((t) => t.id === task.id)
-    tasks[index] = task
-    setTasks([...tasks])
+    dispatch({ type: TaskActions.UPDATE_TASK, payload: task })
     return task
   }
 
   const deleteTask: IDeleteTask = async (id) => {
-    const index = tasks.findIndex((t) => t.id === id)
-    const task = tasks[index]
-    tasks.splice(index, 1)
-    setTasks([...tasks])
-    return task
+    const taskToDelete = tasks.find((task) => task.id === id)
+
+    if (!taskToDelete) {
+      throw new Error('Task not found')
+    }
+
+    dispatch({ type: TaskActions.DELETE_TASK, payload: taskToDelete })
+    return taskToDelete
   }
 
   const getTasks: IGetTasks = async () => {
-    return tasks
+    const { data } = await getTasksAsync()
+    return data.getTasks as ITask[]
   }
 
   return (
