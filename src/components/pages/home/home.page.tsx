@@ -1,6 +1,6 @@
 import { NavigationProp } from '@react-navigation/native'
 import { Button, Layout, Text } from '@ui-kitten/components'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import MenuIcon from 'src/components/atoms/menu/menu-icon.atom'
@@ -17,11 +17,7 @@ type IHomePageProps = {
 }
 
 const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
-  const { getTasks } = useTaskContext()
-
-  useEffect(() => {
-    getTasks()
-  }, [])
+  const { tasks } = useTaskContext()
 
   const [_showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false)
   const [_showTaskAddedModal, setShowTaskAddedModal] = useState<boolean>(false)
@@ -35,7 +31,7 @@ const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
           onTaskCreated={() => setShowTaskAddedModal(true)}
         />
         <Layout style={styles.tasksContainer}>
-          <Text>No Tasks Found </Text>
+          {tasks.length ? <Text>Tasks Found </Text> : <Text>No Tasks Found </Text>}
         </Layout>
         <Layout style={styles.footer}>
           <Button size="large" onPress={() => setShowAddTaskModal(true)}>

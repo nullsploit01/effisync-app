@@ -58,6 +58,7 @@ export const TaskContextProvider: FC<ITaskProviderProps> = ({ children }) => {
 
   const getTasks: IGetTasks = async () => {
     const { data } = await getTasksAsync()
+    dispatch({ type: TaskActions.GET_TASKS, payload: data.getTasks })
     return data.getTasks as ITask[]
   }
 
