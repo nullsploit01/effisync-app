@@ -8,8 +8,9 @@ import TopNavigationLayout from 'src/components/layouts/navigation/top-navigatio
 import { useTaskContext } from 'src/hooks/use-task-context.hook'
 import { IUser } from 'src/interfaces/user'
 
-import CreateTaskModal from './components/create-task-modal.component'
-import TaskAddedModal from './components/task-added-modal.component'
+import CreateTaskModal from './components/create-task/create-task-modal.component'
+import TaskAddedModal from './components/create-task/task-added-modal.component'
+import TasksList from './components/tasks-list/tasks-list.component'
 
 type IHomePageProps = {
   navigation: NavigationProp<any, any>
@@ -31,7 +32,7 @@ const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
           onTaskCreated={() => setShowTaskAddedModal(true)}
         />
         <Layout style={styles.tasksContainer}>
-          {tasks.length ? <Text>Tasks Found </Text> : <Text>No Tasks Found </Text>}
+          {tasks.length ? <TasksList /> : <Text>No Tasks Found </Text>}
         </Layout>
         <Layout style={styles.footer}>
           <Button size="large" onPress={() => setShowAddTaskModal(true)}>
@@ -59,5 +60,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     margin: 10
   },
-  tasksContainer: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }
+  tasksContainer: { flex: 1 }
 })
