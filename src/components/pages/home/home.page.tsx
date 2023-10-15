@@ -1,5 +1,5 @@
 import { NavigationProp } from '@react-navigation/native'
-import { Button, Layout, Text } from '@ui-kitten/components'
+import { Button, Divider, Icon, Layout, Text } from '@ui-kitten/components'
 import { FC, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
@@ -34,9 +34,15 @@ const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
         <Layout style={styles.tasksContainer}>
           {tasks.length ? <TasksList /> : <Text>No Tasks Found </Text>}
         </Layout>
+        <Divider />
         <Layout style={styles.footer}>
-          <Button size="large" onPress={() => setShowAddTaskModal(true)}>
-            Add
+          <Button
+            size="large"
+            appearance="ghost"
+            onPress={() => setShowAddTaskModal(true)}
+            accessoryRight={<Icon name="plus-circle-outline" />}
+          >
+            Add Task
           </Button>
         </Layout>
         <TaskAddedModal
@@ -60,5 +66,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     margin: 10
   },
-  tasksContainer: { flex: 1 }
+  tasksContainer: { flex: 1, marginVertical: 10 }
 })
