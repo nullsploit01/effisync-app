@@ -1,4 +1,4 @@
-import { ListItem } from '@ui-kitten/components'
+import { Button, Icon, ListItem } from '@ui-kitten/components'
 import React, { ReactElement } from 'react'
 import { StyleSheet } from 'react-native'
 
@@ -9,7 +9,14 @@ type ITasksListItemProps = {
 }
 
 const TasksListItem = ({ item }: { item: ITask }): ReactElement => {
-  return <ListItem key={item.id} title={item.title} description={item.description} />
+  return (
+    <ListItem
+      key={item.id}
+      title={item.title}
+      description={item.description}
+      accessoryRight={<Button appearance="ghost" accessoryRight={<Icon name="done-all" />} />}
+    />
+  )
 }
 
 export default TasksListItem
