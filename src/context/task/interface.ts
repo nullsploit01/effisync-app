@@ -2,6 +2,7 @@ import { ITask } from 'src/interfaces/task'
 
 export type ITaskContext = {
   tasks: ITask[]
+  loading: boolean
   createTask: ICreateTask
   updateTask: IUpdateTask
   getTasks: IGetTasks

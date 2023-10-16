@@ -1,4 +1,4 @@
-import { Button, Icon, Input, Layout, Tooltip } from '@ui-kitten/components'
+import { Button, Icon, Input, Layout, Spinner, Tooltip } from '@ui-kitten/components'
 import { FC, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
@@ -13,7 +13,7 @@ type ICreateTaskModalProps = {
 }
 
 const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible, onTaskCreated }) => {
-  const { createTask } = useTaskContext()
+  const { createTask, loading } = useTaskContext()
 
   const [_createTaskFormValues, setCreateTaskFormValues] = useState<ITask>({} as ITask)
   const [_showValidationError, setShowValidationError] = useState<{ task: boolean }>({
@@ -29,6 +29,7 @@ const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible, onTas
     setShowValidationError({ ..._showValidationError, task: false })
     createTask(_createTaskFormValues).then(() => {
       setVisible(false)
+      setCreateTaskFormValues({} as ITask)
       onTaskCreated && onTaskCreated()
     })
   }
@@ -82,7 +83,9 @@ const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible, onTas
             appearance="ghost"
             status="info"
             size="large"
-            accessoryRight={<Icon name="plus-circle-outline" />}
+            accessoryRight={
+              loading ? <Spinner size="small" status="info" /> : <Icon name="plus-circle-outline" />
+            }
             onPress={handleAddTask}
           >
             Add Task

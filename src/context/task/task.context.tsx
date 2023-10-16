@@ -1,5 +1,5 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { createContext, FC, useEffect } from 'react'
+import { createContext, FC, useEffect, useState } from 'react'
 
 import { CreateTaskMutation } from 'src/graphql/task/mutation'
 import { GetTasksQuery } from 'src/graphql/task/query'
@@ -24,46 +24,70 @@ export const TaskContextProvider: FC<ITaskProviderProps> = ({ children }) => {
   const [createTaskAsync] = useMutation(CreateTaskMutation)
   const [getTasksAsync] = useLazyQuery(GetTasksQuery)
 
+  const [_loading, setLoading] = useState<boolean>(false)
+
   useEffect(() => {
     getTasks()
   }, [])
 
   const createTask: ICreateTask = async (task) => {
-    const { data } = await createTaskAsync({
-      variables: {
-        title: task.title,
-        description: task.description
-      }
-    })
+    try {
+      setLoading(true)
+      const { data } = await createTaskAsync({
+        variables: {
+          title: task.title,
+          description: task.description
+        }
+      })
 
-    dispatch({ type: TaskActions.CREATE_TASK, payload: data.createTask })
-    return data.createTask
+      dispatch({ type: TaskActions.CREATE_TASK, payload: data.createTask })
+      return data.createTask
+    } finally {
+      setLoading(false)
+    }
   }
 
   const updateTask: IUpdateTask = async (task: ITask) => {
-    dispatch({ type: TaskActions.UPDATE_TASK, payload: task })
-    return task
+    try {
+      setLoading(true)
+      dispatch({ type: TaskActions.UPDATE_TASK, payload: task })
+      return task
+    } finally {
+      setLoading(false)
+    }
   }
 
   const deleteTask: IDeleteTask = async (id) => {
-    const taskToDelete = tasks.find((task) => task.id === id)
+    try {
+      setLoading(true)
+      const taskToDelete = tasks.find((task) => task.id === id)
 
-    if (!taskToDelete) {
-      throw new Error('Task not found')
+      if (!taskToDelete) {
+        throw new Error('Task not found')
+      }
+
+      dispatch({ type: TaskActions.DELETE_TASK, payload: taskToDelete })
+      return taskToDelete
+    } finally {
+      setLoading(false)
     }
-
-    dispatch({ type: TaskActions.DELETE_TASK, payload: taskToDelete })
-    return taskToDelete
   }
 
   const getTasks: IGetTasks = async () => {
-    const { data } = await getTasksAsync()
-    dispatch({ type: TaskActions.GET_TASKS, payload: data.getTasks })
-    return data.getTasks as ITask[]
+    try {
+      setLoading(true)
+      const { data } = await getTasksAsync()
+      dispatch({ type: TaskActions.GET_TASKS, payload: data.getTasks })
+      return data.getTasks as ITask[]
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <TaskContext.Provider value={{ createTask, updateTask, deleteTask, getTasks, tasks }}>
+    <TaskContext.Provider
+      value={{ createTask, updateTask, deleteTask, getTasks, tasks, loading: _loading }}
+    >
       {children}
     </TaskContext.Provider>
   )
