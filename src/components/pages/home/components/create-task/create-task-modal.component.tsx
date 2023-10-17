@@ -83,12 +83,13 @@ const CreateTaskModal: FC<ICreateTaskModalProps> = ({ visible, setVisible, onTas
             appearance="ghost"
             status="info"
             size="large"
+            disabled={loading}
             accessoryRight={
               loading ? <Spinner size="small" status="info" /> : <Icon name="plus-circle-outline" />
             }
             onPress={handleAddTask}
           >
-            Add Task
+            {loading ? 'Adding Task' : 'Add Task'}
           </Button>
         </Layout>
       </Layout>
