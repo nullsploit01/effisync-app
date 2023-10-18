@@ -2,7 +2,7 @@ import { ApolloError, useLazyQuery, useMutation } from '@apollo/client'
 import { createContext, FC, useEffect } from 'react'
 
 import { storageKeys } from 'src/constants/storage.constants'
-import { LoginMutation } from 'src/graphql/auth/mutation'
+import { LoginMutation, RegisterMutation } from 'src/graphql/auth/mutation'
 import { ProfileQuery } from 'src/graphql/auth/query'
 import { useAuthReducer } from 'src/hooks/use-auth-reducer.hook'
 import { IUser } from 'src/interfaces/user'
@@ -22,6 +22,8 @@ export const AuthContext = createContext<IAuthContext>({} as IAuthContext)
 
 export const AuthProvider: FC<IAuthContextProvider> = ({ children }) => {
   const [state, dispatch] = useAuthReducer()
+
+  const [registerCallback] = useMutation(RegisterMutation)
   const [loginCallback] = useMutation(LoginMutation)
   const [profileCallback] = useLazyQuery(ProfileQuery)
 
@@ -30,7 +32,28 @@ export const AuthProvider: FC<IAuthContextProvider> = ({ children }) => {
   }, [])
 
   const register: IRegister = async (name, email, password) => {
-    return {} as IAuthResponse
+    try {
+      const { data } = await registerCallback({
+        variables: {
+          name,
+          email,
+          password
+        }
+      })
+
+      const authResponse = data?.register as IAuthResponse
+
+      await storageService.set(storageKeys.auth.token, authResponse.token)
+      dispatch({ type: AuthActions.LOGIN, payload: authResponse })
+
+      return authResponse
+    } catch (err) {
+      if (err instanceof ApolloError) {
+        throw new Error(err.message)
+      }
+
+      throw new Error("Couldn't login")
+    }
   }
 
   const login: ILogin = async (email, password) => {

@@ -31,8 +31,8 @@ const RegisterPage: FC<IRegisterPageProps> = ({ navigation }) => {
     navigation.navigate(screenNames.auth.login)
   }
 
-  const onRegisterPress = () => {
-    register(_registrationInfo.name, _registrationInfo.email, _registrationInfo.password)
+  const onRegisterPress = async () => {
+    await register(_registrationInfo.name, _registrationInfo.email, _registrationInfo.password)
   }
 
   return (
