@@ -35,7 +35,7 @@ export const AuthProvider: FC<IAuthContextProvider> = ({ children }) => {
 
   const register: IRegister = async (name, email, password) => {
     try {
-      const { data, errors } = await registerCallback({
+      const { data } = await registerCallback({
         variables: {
           name,
           email,
