@@ -28,9 +28,7 @@ export const AuthProvider: FC<IAuthContextProvider> = ({ children }) => {
   const [profileCallback] = useLazyQuery(ProfileQuery)
 
   useEffect(() => {
-    if (state.user) {
-      getProfile()
-    }
+    getProfile()
   }, [])
 
   const register: IRegister = async (name, email, password) => {

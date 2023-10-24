@@ -1,19 +1,22 @@
-import { Avatar, Text } from '@ui-kitten/components'
+import { Avatar } from '@ui-kitten/components'
 import { FC } from 'react'
+import { TouchableOpacity } from 'react-native'
 
-import { IUser } from 'src/interfaces/user'
-import { getUserInitials } from 'src/utils/get-avatar.util'
+import { ImageUrls } from 'src/constants/image-urls.constant'
+import { useAuthContext } from 'src/hooks/use-auth-context.hook'
 
 type IMenuIconProps = {
-  user: IUser
+  onPress?: () => void
 }
 
-const MenuIcon: FC<IMenuIconProps> = ({ user }) => {
-  if (user.avatar) {
-    return <Avatar source={{ uri: user?.avatar }} />
-  }
+const MenuIcon: FC<IMenuIconProps> = ({ onPress }) => {
+  const { user } = useAuthContext()
 
-  return <Text>{getUserInitials(user)}</Text>
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Avatar source={{ uri: user?.avatar ?? ImageUrls.defaultProfilePicture }} />
+    </TouchableOpacity>
+  )
 }
 
 export default MenuIcon

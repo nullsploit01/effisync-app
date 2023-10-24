@@ -1,6 +1,6 @@
 import { Icon, TopNavigation, TopNavigationAction } from '@ui-kitten/components'
 import React, { FC } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 type ITopNavigationBarProps = {
@@ -46,12 +46,19 @@ const TopNavigationLayout: FC<ITopNavigationLayoutProps> = ({
 }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigationBar
-        title={title}
-        onBackPress={onBackPress}
-        backIcon={backIcon}
-        accessoryRight={accessoryRight}
-      />
+      <View
+        style={{
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
+        <TopNavigationBar
+          title={title}
+          onBackPress={onBackPress}
+          backIcon={backIcon}
+          accessoryRight={accessoryRight}
+        />
+      </View>
       {children}
     </SafeAreaView>
   )

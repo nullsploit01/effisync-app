@@ -24,7 +24,7 @@ const HomePage: FC<IHomePageProps> = ({ navigation, user }) => {
   const [_showTaskAddedModal, setShowTaskAddedModal] = useState<boolean>(false)
 
   return (
-    <TopNavigationLayout title="Home" accessoryRight={() => <MenuIcon user={user} />}>
+    <TopNavigationLayout title="Home" accessoryRight={() => <MenuIcon />}>
       <Layout style={styles.container}>
         <CreateTaskModal
           visible={_showAddTaskModal}

@@ -3,6 +3,7 @@ import { createContext, FC, useEffect, useState } from 'react'
 
 import { CreateTaskMutation } from 'src/graphql/task/mutation'
 import { GetTasksQuery } from 'src/graphql/task/query'
+import { useAuthContext } from 'src/hooks/use-auth-context.hook'
 import { useTaskReducer } from 'src/hooks/use-task-reducer.hook'
 import { ITask } from 'src/interfaces/task'
 import { TaskActions } from 'src/reducers/task/interface'
@@ -19,6 +20,8 @@ import {
 export const TaskContext = createContext<ITaskContext>({} as ITaskContext)
 
 export const TaskContextProvider: FC<ITaskProviderProps> = ({ children }) => {
+  const { user } = useAuthContext()
+
   const [{ tasks }, dispatch] = useTaskReducer()
 
   const [createTaskAsync] = useMutation(CreateTaskMutation)
@@ -27,8 +30,10 @@ export const TaskContextProvider: FC<ITaskProviderProps> = ({ children }) => {
   const [_loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    getTasks()
-  }, [])
+    if (user) {
+      getTasks()
+    }
+  }, [user])
 
   const createTask: ICreateTask = async (task) => {
     try {
